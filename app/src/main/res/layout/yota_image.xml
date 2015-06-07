@@ -5,12 +5,11 @@
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin" >
 
-    <TextView
-        android:id="@+id/mytext"
+    <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical|center_horizontal"
-        android:text="HELLO YOTA"
-        android:textSize="36sp" />
+        android:src="@drawable/example_appwidget_preview" />
 
 </FrameLayout>

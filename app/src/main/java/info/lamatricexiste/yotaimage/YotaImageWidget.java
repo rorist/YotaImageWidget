@@ -1,4 +1,4 @@
-package yotanotif.lamatricexiste.info.yotanotification;
+package info.lamatricexiste.yotaimage;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -9,9 +9,9 @@ import android.widget.RemoteViews;
 
 import com.yotadevices.sdk.BackscreenLauncherConstants;
 
-public class YotaNotif extends AppWidgetProvider {
+public class YotaImageWidget extends AppWidgetProvider {
 
-    private static String TAG = "YotaNotification";
+    private static String TAG = "YotaImageWidget";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -47,10 +47,11 @@ public class YotaNotif extends AppWidgetProvider {
 
         Log.v(TAG, "onUpdateAppWidget");
         //CharSequence widgetText = context.getString(R.string.appwidget_text);
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_notif);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
         //views.setTextViewText(R.id.appwidget_text, widgetText);
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
     }
+
 }
 
