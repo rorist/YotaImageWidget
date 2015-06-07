@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<backscreen-widget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sdk="http://schemas.android.com/apk/com.yotadevices.sdk"
+    sdk:category="Productivity"
+    sdk:invertable="small|medium"
+    sdk:size="small|medium" />

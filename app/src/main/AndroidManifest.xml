@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="yotanotif.lamatricexiste.info.yotanotification">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <uses-library
+            android:name="com.yotadevices.yotaphone2.sdk.v2"
+            android:required="true" />
+
+        <receiver android:name="yotanotif.lamatricexiste.info.yotanotification.YotaNotif">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_DELETE" />
+                <action android:name="android.appwidget.action.ACTION_APPWIDGET_ENABLED" />
+                <action android:name="android.appwidget.action.ACTION_APPWIDGET_DISABLED" />
+                <action android:name="com.yotadevices.yotaphone.action.APPWIDGET_VISIBILITY_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/fs_yota_notif_info" />
+
+            <meta-data
+                android:name="com.yotadevices.yotaphone.bs_provider"
+                android:resource="@xml/bs_yota_notif_info" />
+
+        </receiver>
+
+    </application>
+
+</manifest>
