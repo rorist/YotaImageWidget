@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.yotadevices.sdk.Drawer;
 import com.yotadevices.sdk.utils.BitmapUtils;
+import com.yotadevices.sdk.utils.EinkUtils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -53,16 +54,6 @@ public class YotaImageConfig extends Activity {
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(YotaImageConfig.this);
 
-        // Get default image
-        ImageView imageView = (ImageView) findViewById(R.id.config_image);
-        mPicturePath = mPrefs.getString(PREF_IMAGE_PATH, null);
-        if (mPicturePath != null) {
-            Bitmap image = BitmapFactory.decodeFile(mPicturePath);
-            imageView.setImageBitmap(image);
-        } else {
-            imageView.setImageDrawable(getDrawable(R.drawable.placeholder));
-        }
-
         // Get widget IDs
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
@@ -78,13 +69,23 @@ public class YotaImageConfig extends Activity {
             }
         }
 
+        // Get default image
+        ImageView imageView = (ImageView) findViewById(R.id.config_image);
+        mPicturePath = mPrefs.getString(PREF_IMAGE_PATH + frWidgetId, null);
+        if (mPicturePath != null) {
+            Bitmap image = createBitmap(mPicturePath);
+            imageView.setImageBitmap(image);
+        } else {
+            imageView.setImageDrawable(getDrawable(R.drawable.placeholder));
+        }
+
         // Save button
         ((Button) findViewById(R.id.btn_save)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Save image path in preferences
                 SharedPreferences.Editor edit = mPrefs.edit();
-                edit.putString(PREF_IMAGE_PATH, mPicturePath);
+                edit.putString(PREF_IMAGE_PATH + frWidgetId, mPicturePath);
                 edit.commit();
 
                 // Leave
@@ -126,37 +127,27 @@ public class YotaImageConfig extends Activity {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
 
-            /*
-            // Get image data
-            InputStream is = null;
-            try {
-                is = getApplicationContext().getContentResolver().openInputStream(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            Bitmap image = BitmapFactory.decodeStream(is);
-            */
-
             // Get image path and data
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
-
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             mPicturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            // Create bitmap image for the backscreen
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 32;
-            Bitmap imageBitmap = BitmapFactory.decodeFile(mPicturePath, options);
-            BitmapUtils.ditherBitmap(imageBitmap, Drawer.Dithering.DITHER_ATKINSON);
-
             // Show image
+            Bitmap imageBitmap = createBitmap(mPicturePath);
             ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
         }
 
+    }
+
+    protected static Bitmap createBitmap(String path) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap imageBitmap = BitmapFactory.decodeFile(path, options);
+        imageBitmap = BitmapUtils.prepareImageForBS(imageBitmap);
+        imageBitmap = BitmapUtils.ditherBitmap(imageBitmap, Drawer.Dithering.DITHER_ATKINSON);
+        return imageBitmap;
     }
 }

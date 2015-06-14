@@ -3,4 +3,4 @@
     xmlns:sdk="http://schemas.android.com/apk/com.yotadevices.sdk"
     sdk:category="Panel|Personalisation"
     sdk:invertable="small|medium"
-    sdk:size="small|medium" />
+    sdk:size="small|medium|large|extra_large" />
