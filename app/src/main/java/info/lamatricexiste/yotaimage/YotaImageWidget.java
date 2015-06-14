@@ -4,10 +4,16 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.yotadevices.sdk.BackscreenLauncherConstants;
+import com.yotadevices.sdk.Drawer;
+import com.yotadevices.sdk.utils.BitmapUtils;
 
 public class YotaImageWidget extends AppWidgetProvider {
 
@@ -46,9 +52,19 @@ public class YotaImageWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         Log.v(TAG, "onUpdateAppWidget");
-        //CharSequence widgetText = context.getString(R.string.appwidget_text);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
-        //views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String imagePath = prefs.getString(YotaImageConfig.PREF_IMAGE_PATH, null);
+        if (imagePath != null) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 32;
+            Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
+            BitmapUtils.ditherBitmap(imageBitmap, Drawer.Dithering.DITHER_ATKINSON);
+            views.setImageViewBitmap(R.id.widget_image, imageBitmap);
+        } else {
+            views.setImageViewResource(R.id.widget_image, R.drawable.placeholder);
+        }
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
     }

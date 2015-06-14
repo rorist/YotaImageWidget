@@ -6,10 +6,10 @@
     android:padding="@dimen/widget_margin" >
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/widget_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical|center_horizontal"
-        android:src="@drawable/example_appwidget_preview" />
+        android:src="@drawable/placeholder" />
 
 </FrameLayout>

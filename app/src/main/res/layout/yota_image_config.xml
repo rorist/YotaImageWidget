@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="20dip">
 
-    <ImageView
-        android:id="@+id/image"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/example_appwidget_preview" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select image" />
+        <ImageView
+            android:id="@+id/config_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select image" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dip">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel" />
+
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
