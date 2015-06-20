@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yotadevices.sdk.Drawer;
 import com.yotadevices.sdk.utils.BitmapUtils;
@@ -131,6 +132,10 @@ public class YotaImageConfig extends Activity {
             // Get image path and data
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            if (cursor == null) {
+                Toast.makeText(this, "Unable to load image", Toast.LENGTH_SHORT).show();
+                return;
+            }
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             mPicturePath = cursor.getString(columnIndex);
