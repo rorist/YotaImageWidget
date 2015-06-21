@@ -34,6 +34,9 @@ import com.yotadevices.sdk.utils.EinkUtils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
+
+import android.net.Uri;
 
 public class YotaImageConfig extends Activity {
 
@@ -41,7 +44,8 @@ public class YotaImageConfig extends Activity {
     private int frWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private int bsWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private static String TAG = "YotaImageConfig";
-    private static int RESULT_LOAD_IMAGE = 1337;
+    private static int RESULT_LOAD_IMAGE = 1;
+    private static int RESULT_CROP_IMAGE = 2;
     protected static String PREF_IMAGE_PATH = "image_path";
 
     private SharedPreferences mPrefs;
@@ -66,7 +70,7 @@ public class YotaImageConfig extends Activity {
             if (ids != null) {
                 frWidgetId = ids[0]; // Widget that is on a front screen (into YotaHub)
                 bsWidgetId = ids[1]; // Widget that is on a back screen
-                Log.v(TAG, "frid=" + frWidgetId + ", bsid=" + bsWidgetId);
+                Log.d(TAG, "frid=" + frWidgetId + ", bsid=" + bsWidgetId);
             }
         }
 
@@ -133,7 +137,7 @@ public class YotaImageConfig extends Activity {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             if (cursor == null) {
-                Toast.makeText(this, "Unable to load image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Unable to load image!", Toast.LENGTH_SHORT).show();
                 return;
             }
             cursor.moveToFirst();
@@ -141,9 +145,28 @@ public class YotaImageConfig extends Activity {
             mPicturePath = cursor.getString(columnIndex);
             cursor.close();
 
+            // Crop image // FIXME doesnt work yet
+            /*
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            cropIntent.setDataAndType(Uri.parse(mPicturePath), "image/*");
+            cropIntent.putExtra("crop", "true");
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            cropIntent.putExtra("outputX", 128);
+            cropIntent.putExtra("outputY", 128);
+            cropIntent.putExtra("return-data", true);
+            startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
+            */
+
             // Show image
             Bitmap imageBitmap = createBitmap(mPicturePath);
             ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
+        } else {
+            if (data != null) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = extras.getParcelable("data");
+                ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
+            }
         }
 
     }
@@ -152,6 +175,11 @@ public class YotaImageConfig extends Activity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
         Bitmap imageBitmap = BitmapFactory.decodeFile(path, options);
+        imageBitmap = createBitmap(imageBitmap);
+        return imageBitmap;
+    }
+
+    protected static Bitmap createBitmap(Bitmap imageBitmap) {
         imageBitmap = BitmapUtils.prepareImageForBS(imageBitmap);
         imageBitmap = BitmapUtils.ditherBitmap(imageBitmap, Drawer.Dithering.DITHER_ATKINSON);
         return imageBitmap;
