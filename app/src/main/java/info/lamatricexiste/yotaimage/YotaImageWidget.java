@@ -26,7 +26,7 @@ public class YotaImageWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        Log.v(TAG, "onUpdate");
+        Log.d(TAG, "onUpdate");
 
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
@@ -39,7 +39,7 @@ public class YotaImageWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (BackscreenLauncherConstants.ACTION_APPWIDGET_VISIBILITY_CHANGED.equals(intent.getAction())) {
-            Log.v(TAG, "onReceive visibility changed");
+            Log.d(TAG, "onReceive visibility changed");
             Bundle extras = intent.getExtras();
             if (extras != null && extras.containsKey(BackscreenLauncherConstants.ACTION_APPWIDGET_EXTRA_VISIBLE)) {
 
@@ -66,18 +66,18 @@ public class YotaImageWidget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        Log.v(TAG, "onEnabled");
+        Log.d(TAG, "onEnabled");
     }
 
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
-        Log.v(TAG, "onDisabled");
+        Log.d(TAG, "onDisabled");
     }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        Log.v(TAG, "onUpdateAppWidget=" + appWidgetId);
+        Log.d(TAG, "onUpdateAppWidget=" + appWidgetId);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String imagePath = prefs.getString(YotaImageConfig.PREF_IMAGE_PATH + appWidgetId, null);
