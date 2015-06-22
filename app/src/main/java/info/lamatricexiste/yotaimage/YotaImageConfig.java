@@ -148,7 +148,7 @@ public class YotaImageConfig extends Activity {
             // Crop image // FIXME doesnt work yet
             /*
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            cropIntent.setDataAndType(Uri.parse(mPicturePath), "image/*");
+            cropIntent.setDataAndType(selectedImage, "image/*");
             cropIntent.putExtra("crop", "true");
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
@@ -157,6 +157,9 @@ public class YotaImageConfig extends Activity {
             cropIntent.putExtra("return-data", true);
             startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
             */
+
+            // Save image in external storage
+            // TODO
 
             // Show image
             Bitmap imageBitmap = createBitmap(mPicturePath);
