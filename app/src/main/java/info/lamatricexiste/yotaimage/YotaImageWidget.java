@@ -66,10 +66,10 @@ public class YotaImageWidget extends AppWidgetProvider {
     }
 
     @Override
-    public void onDeleted(Context ctxt, int[] appWidgetIds) {
+    public void onDeleted(Context context, int[] appWidgetIds) {
         // Remove preferences
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctxt);
-        Editor edit = prefs.edit();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
             edit.remove(YotaImageConfig.PREF_IMAGE_PATH + appWidgetIds[i]);
