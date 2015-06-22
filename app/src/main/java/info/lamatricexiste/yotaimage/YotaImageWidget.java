@@ -28,6 +28,7 @@ public class YotaImageWidget extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
         Log.d(TAG, "onUpdate");
 
+        // Update all widgets
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
             updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
@@ -65,19 +66,23 @@ public class YotaImageWidget extends AppWidgetProvider {
     }
 
     @Override
-    public void onEnabled(Context context) {
-        Log.d(TAG, "onEnabled");
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-        Log.d(TAG, "onDisabled");
+    public void onDeleted(Context ctxt, int[] appWidgetIds) {
+        // Remove preferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctxt);
+        Editor edit = prefs.edit();
+        final int N = appWidgetIds.length;
+        for (int i = 0; i < N; i++) {
+            edit.remove(YotaImageConfig.PREF_IMAGE_PATH + appWidgetIds[i]);
+        }
+        edit.commit();
+        super.onDeleted(context, appWidgetIds);
+        Log.d(TAG, "onDeleted");
     }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         Log.d(TAG, "onUpdateAppWidget=" + appWidgetId);
+        // Get image and displays it
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String imagePath = prefs.getString(YotaImageConfig.PREF_IMAGE_PATH + appWidgetId, null);
