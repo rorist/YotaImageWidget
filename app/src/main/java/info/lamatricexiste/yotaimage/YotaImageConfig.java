@@ -137,7 +137,7 @@ public class YotaImageConfig extends Activity {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             if (cursor == null) {
-                Toast.makeText(this, "Unable to load image!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.error_image_load, Toast.LENGTH_SHORT).show();
                 return;
             }
             cursor.moveToFirst();

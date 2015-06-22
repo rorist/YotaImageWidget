@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">YotaWidgetImage</string>
+    <string name="error_image_load">Unable to load image!</string>
+    <string name="config_select_image">Select image</string>
+    <string name="config_save">Save</string>
+    <string name="config_cancel">Cancel</string>
 </resources>
