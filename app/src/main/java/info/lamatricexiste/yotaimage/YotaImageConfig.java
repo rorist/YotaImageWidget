@@ -193,24 +193,24 @@ public class YotaImageConfig extends Activity {
 
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.radio_small:
-                if (checked){
+                if (checked) {
                     setImageSize(476, 112);
                 }
                 break;
             case R.id.radio_medium:
-                if (checked){
+                if (checked) {
                     setImageSize(476, 168);
                 }
                 break;
             case R.id.radio_large:
-                if (checked){
+                if (checked) {
                     setImageSize(448, 476);
                 }
                 break;
             case R.id.radio_extra_large:
-                if (checked){
+                if (checked) {
                     setImageSize(960, 540);
                 }
                 break;
