@@ -48,9 +48,13 @@ public class YotaImageConfig extends Activity {
     private static int RESULT_LOAD_IMAGE = 1;
     private static int RESULT_CROP_IMAGE = 2;
     protected static String PREF_IMAGE_PATH = "image_path";
+    protected static String PREF_IMAGE_SIZEW = "image_sizew";
+    protected static String PREF_IMAGE_SIZEH = "image_sizeh";
 
     private SharedPreferences mPrefs;
-    private String mPicturePath = null;
+    private String mPicturePath;
+    private int mPictureW;
+    private int mPictureH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class YotaImageConfig extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yota_image_config);
 
+        // TODO: select button from prefs
         ((RadioButton) findViewById(R.id.radio_small)).setChecked(true);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(YotaImageConfig.this);
@@ -80,8 +85,10 @@ public class YotaImageConfig extends Activity {
         // Get default image
         ImageView imageView = (ImageView) findViewById(R.id.config_image);
         mPicturePath = mPrefs.getString(PREF_IMAGE_PATH + frWidgetId, null);
+        mPictureW = mPrefs.getInt(PREF_IMAGE_SIZEW + frWidgetId, 476);
+        mPictureH = mPrefs.getInt(PREF_IMAGE_SIZEH + frWidgetId, 112);
         if (mPicturePath != null) {
-            Bitmap image = createBitmap(mPicturePath);
+            Bitmap image = createBitmap(mPicturePath, mPictureW, mPictureH);
             imageView.setImageBitmap(image);
         } else {
             imageView.setImageDrawable(getDrawable(R.drawable.placeholder));
@@ -95,6 +102,8 @@ public class YotaImageConfig extends Activity {
                 SharedPreferences.Editor edit = mPrefs.edit();
                 edit.putString(PREF_IMAGE_PATH + frWidgetId, mPicturePath);
                 edit.putString(PREF_IMAGE_PATH + bsWidgetId, mPicturePath);
+                edit.putInt(PREF_IMAGE_SIZEW + bsWidgetId, mPictureW);
+                edit.putInt(PREF_IMAGE_SIZEH + bsWidgetId, mPictureH);
                 edit.commit();
 
                 // Leave
@@ -161,11 +170,8 @@ public class YotaImageConfig extends Activity {
             startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
             */
 
-            // Save image in external storage
-            // TODO
-
             // Show image
-            Bitmap imageBitmap = createBitmap(mPicturePath);
+            Bitmap imageBitmap = createBitmap(mPicturePath, mPictureW, mPictureH);
             ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
         } else {
             if (data != null) {
@@ -177,10 +183,12 @@ public class YotaImageConfig extends Activity {
 
     }
 
-    protected static Bitmap createBitmap(String path) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        Bitmap imageBitmap = BitmapFactory.decodeFile(path, options);
+    protected static Bitmap createBitmap(String path, int w, int h) {
+        //BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inSampleSize = 2;
+        //Bitmap imageBitmap = BitmapFactory.decodeFile(path, options);
+        Bitmap imageBitmap = BitmapFactory.decodeFile(path);
+        imageBitmap = Bitmap.createScaledBitmap(imageBitmap, w, h, false);
         imageBitmap = createBitmap(imageBitmap);
         return imageBitmap;
     }
@@ -196,25 +204,30 @@ public class YotaImageConfig extends Activity {
         switch (view.getId()) {
             case R.id.radio_small:
                 if (checked) {
-                    setImageSize(476, 112);
+                    mPictureW = 476;
+                    mPictureH = 112;
                 }
                 break;
             case R.id.radio_medium:
                 if (checked) {
-                    setImageSize(476, 168);
+                    mPictureW = 476;
+                    mPictureH = 168;
                 }
                 break;
             case R.id.radio_large:
                 if (checked) {
-                    setImageSize(448, 476);
+                    mPictureW = 448;
+                    mPictureH = 476;
                 }
                 break;
             case R.id.radio_extra_large:
                 if (checked) {
-                    setImageSize(960, 540);
+                    mPictureW = 960;
+                    mPictureH = 540;
                 }
                 break;
         }
+        setImageSize(mPictureW, mPictureH);
     }
 
     private void setImageSize(int w, int h) {
@@ -223,6 +236,7 @@ public class YotaImageConfig extends Activity {
         img.setMaxWidth(w);
         img.setMaxHeight(h);
         img.requestLayout();
+        createBitmap(mPicturePath, w, h);
     }
 
 }

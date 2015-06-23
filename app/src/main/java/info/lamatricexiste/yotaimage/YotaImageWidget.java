@@ -73,6 +73,8 @@ public class YotaImageWidget extends AppWidgetProvider {
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
             edit.remove(YotaImageConfig.PREF_IMAGE_PATH + appWidgetIds[i]);
+            edit.remove(YotaImageConfig.PREF_IMAGE_SIZEW + appWidgetIds[i]);
+            edit.remove(YotaImageConfig.PREF_IMAGE_SIZEH + appWidgetIds[i]);
         }
         edit.commit();
         super.onDeleted(context, appWidgetIds);
@@ -86,8 +88,10 @@ public class YotaImageWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String imagePath = prefs.getString(YotaImageConfig.PREF_IMAGE_PATH + appWidgetId, null);
+        int imageW = prefs.getInt(YotaImageConfig.PREF_IMAGE_SIZEW + appWidgetId, 476);
+        int imageH = prefs.getInt(YotaImageConfig.PREF_IMAGE_SIZEH + appWidgetId, 112);
         if (imagePath != null) {
-            Bitmap imageBitmap = YotaImageConfig.createBitmap(imagePath);
+            Bitmap imageBitmap = YotaImageConfig.createBitmap(imagePath, imageW, imageH);
             views.setImageViewBitmap(R.id.widget_image, imageBitmap);
         } else {
             views.setImageViewResource(R.id.widget_image, R.drawable.placeholder);
