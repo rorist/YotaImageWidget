@@ -4,4 +4,9 @@
     <string name="config_select_image">Select image</string>
     <string name="config_save">Save</string>
     <string name="config_cancel">Cancel</string>
+    <string name="config_crop">Crop</string>
+    <string name="radio_s">S</string>
+    <string name="radio_m">M</string>
+    <string name="radio_l">L</string>
+    <string name="radio_xl">XL</string>
 </resources>

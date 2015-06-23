@@ -57,6 +57,8 @@ public class YotaImageConfig extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yota_image_config);
 
+        ((RadioButton) findViewById(R.id.radio_small)).setChecked(true);
+
         mPrefs = PreferenceManager.getDefaultSharedPreferences(YotaImageConfig.this);
 
         // Get widget IDs
@@ -187,4 +189,38 @@ public class YotaImageConfig extends Activity {
         imageBitmap = BitmapUtils.ditherBitmap(imageBitmap, Drawer.Dithering.DITHER_ATKINSON);
         return imageBitmap;
     }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch(view.getId()) {
+            case R.id.radio_small:
+                if (checked){
+                    setImageSize(476, 112);
+                }
+                break;
+            case R.id.radio_medium:
+                if (checked){
+                    setImageSize(476, 168);
+                }
+                break;
+            case R.id.radio_large:
+                if (checked){
+                    setImageSize(448, 476);
+                }
+                break;
+            case R.id.radio_extra_large:
+                if (checked){
+                    setImageSize(960, 540);
+                }
+                break;
+        }
+    }
+
+    private void setImageSize(int w, int h) {
+        ImageView img = (ImageView) findViewById(R.id.config_image);
+        img.setAdjustViewBounds(true);
+        img.setMaxWidth(w);
+        img.setMaxHeight(h);
+    }
+
 }
