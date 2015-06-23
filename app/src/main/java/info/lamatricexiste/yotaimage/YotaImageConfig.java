@@ -222,6 +222,7 @@ public class YotaImageConfig extends Activity {
         img.setAdjustViewBounds(true);
         img.setMaxWidth(w);
         img.setMaxHeight(h);
+        img.requestLayout();
     }
 
 }
