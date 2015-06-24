@@ -2,6 +2,7 @@ package info.lamatricexiste.yotaimage;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -64,8 +65,9 @@ public class YotaImageConfig extends Activity {
         setContentView(R.layout.yota_image_config);
 
         // TODO: select button from prefs
-        ((RadioButton) findViewById(R.id.radio_small)).setChecked(true);
+        //((RadioButton) findViewById(R.id.radio_small)).setChecked(true);
 
+        Context context = getApplicationContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(YotaImageConfig.this);
 
         // Get widget IDs
@@ -84,7 +86,7 @@ public class YotaImageConfig extends Activity {
         }
 
         // Get widget size
-            Bundle appWidgetOptions = AppWidgetManager.getInstance(context).getAppWidgetOptions(bsWidgetId);
+        Bundle appWidgetOptions = AppWidgetManager.getInstance(context).getAppWidgetOptions(bsWidgetId);
         int size = appWidgetOptions.getInt(BackscreenLauncherConstants.OPTION_WIDGET_SIZE, -1);
         switch (size) {
             case BackscreenLauncherConstants.WIDGET_SIZE_SMALL:
