@@ -29,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yotadevices.sdk.BackscreenLauncherConstants;
 import com.yotadevices.sdk.Drawer;
 import com.yotadevices.sdk.utils.BitmapUtils;
 import com.yotadevices.sdk.utils.EinkUtils;
@@ -82,11 +83,33 @@ public class YotaImageConfig extends Activity {
             }
         }
 
+        // Get widget size
+            Bundle appWidgetOptions = AppWidgetManager.getInstance(context).getAppWidgetOptions(bsWidgetId);
+        int size = appWidgetOptions.getInt(BackscreenLauncherConstants.OPTION_WIDGET_SIZE, -1);
+        switch (size) {
+            case BackscreenLauncherConstants.WIDGET_SIZE_SMALL:
+                mPictureW = 476;
+                mPictureH = 112;
+                break;
+            case BackscreenLauncherConstants.WIDGET_SIZE_MEDIUM:
+                mPictureW = 476;
+                mPictureH = 168;
+                break;
+            case BackscreenLauncherConstants.WIDGET_SIZE_LARGE:
+                mPictureW = 448;
+                mPictureH = 476;
+                break;
+            case BackscreenLauncherConstants.WIDGET_SIZE_EXTRA_LARGE:
+                mPictureW = 960;
+                mPictureH = 540;
+                break;
+            default:
+                Log.e(TAG, "Unknown size");
+        }
+
         // Get default image
         ImageView imageView = (ImageView) findViewById(R.id.config_image);
         mPicturePath = mPrefs.getString(PREF_IMAGE_PATH + frWidgetId, null);
-        mPictureW = mPrefs.getInt(PREF_IMAGE_SIZEW + frWidgetId, 476);
-        mPictureH = mPrefs.getInt(PREF_IMAGE_SIZEH + frWidgetId, 112);
         if (mPicturePath != null) {
             Bitmap image = createBitmap(mPicturePath, mPictureW, mPictureH);
             imageView.setImageBitmap(image);
@@ -172,7 +195,9 @@ public class YotaImageConfig extends Activity {
 
             // Show image
             Bitmap imageBitmap = createBitmap(mPicturePath, mPictureW, mPictureH);
-            ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
+            ImageView img = (ImageView) findViewById(R.id.config_image);
+            img.setImageBitmap(imageBitmap);
+            img.requestLayout();
         } else {
             if (data != null) {
                 Bundle extras = data.getExtras();
@@ -199,6 +224,7 @@ public class YotaImageConfig extends Activity {
         return imageBitmap;
     }
 
+    /*
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         switch (view.getId()) {
@@ -238,5 +264,6 @@ public class YotaImageConfig extends Activity {
         img.requestLayout();
         createBitmap(mPicturePath, w, h);
     }
+    */
 
 }
