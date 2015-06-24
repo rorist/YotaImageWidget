@@ -35,6 +35,7 @@ import com.yotadevices.sdk.Drawer;
 import com.yotadevices.sdk.utils.BitmapUtils;
 import com.yotadevices.sdk.utils.EinkUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
@@ -161,6 +162,27 @@ public class YotaImageConfig extends Activity {
             }
         });
 
+        // Crop image button
+        ((Button) findViewById(R.id.btn_crop)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mPicturePath == null) {
+                    Toast.makeText(this, "Impossible to crop", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent cropIntent = new Intent("com.android.camera.action.CROP");
+                Uri selectedImage = Uri.fromFile(new File(mPicturePath));
+                cropIntent.setDataAndType(selectedImage, "image/*");
+                cropIntent.putExtra("crop", "true");
+                cropIntent.putExtra("aspectX", 1);
+                cropIntent.putExtra("aspectY", 1);
+                cropIntent.putExtra("outputX", mPictureW);
+                cropIntent.putExtra("outputY", mPictureH);
+                cropIntent.putExtra("return-data", true);
+                startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
+            }
+        });
+
     }
 
     @Override
@@ -181,19 +203,6 @@ public class YotaImageConfig extends Activity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             mPicturePath = cursor.getString(columnIndex);
             cursor.close();
-
-            // Crop image // FIXME doesnt work yet
-            /*
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            cropIntent.setDataAndType(selectedImage, "image/*");
-            cropIntent.putExtra("crop", "true");
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            cropIntent.putExtra("outputX", 128);
-            cropIntent.putExtra("outputY", 128);
-            cropIntent.putExtra("return-data", true);
-            startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
-            */
 
             // Show image
             Bitmap imageBitmap = createBitmap(mPicturePath, mPictureW, mPictureH);
