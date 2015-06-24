@@ -12,8 +12,10 @@ Build from the command line
 * [Optionnal] Install YotaPhone SDK: http://yotaphone.com/developer/docs/tools/download-and-install-yotaphone-sdk/
 * Be sure to have Android API level 22 and Android SDK Build-tools 21.1.2 installed
 * run gradle
+```
   gradle assembleDebug #to create debug apk
   gradle installDebug #install debug apk to device/emulator
+```
 * APK will be in ./app/build/outputs/apk/app-debug.apk
 
 Build with Android studio
