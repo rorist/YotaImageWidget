@@ -167,7 +167,7 @@ public class YotaImageConfig extends Activity {
             @Override
             public void onClick(View view) {
                 if(mPicturePath == null) {
-                    Toast.makeText(this, "Impossible to crop", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(YotaImageConfig.this, "Impossible to crop", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent cropIntent = new Intent("com.android.camera.action.CROP");
