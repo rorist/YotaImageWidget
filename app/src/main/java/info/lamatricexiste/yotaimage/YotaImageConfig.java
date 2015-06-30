@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.graphics.Bitmap.CompressFormat;
 
 
 import android.app.Activity;
@@ -39,6 +40,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+
 
 import android.net.Uri;
 
@@ -178,7 +182,7 @@ public class YotaImageConfig extends Activity {
                 cropIntent.putExtra("aspectY", 1);
                 cropIntent.putExtra("outputX", mPictureW);
                 cropIntent.putExtra("outputY", mPictureH);
-                cropIntent.putExtra("return-data", true);
+                //cropIntent.putExtra("return-data", true);
                 startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
             }
         });
@@ -209,24 +213,41 @@ public class YotaImageConfig extends Activity {
             ImageView img = (ImageView) findViewById(R.id.config_image);
             img.setImageBitmap(imageBitmap);
             img.requestLayout();
-        } else if (requestCode == RESULT_CROP_IMAGE && resultCode == RESULT_OK && data != null) {
+        } else if (requestCode == RESULT_CROP_IMAGE && resultCode == RESULT_OK) {
+            /*
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = extras.getParcelable("data");
 
-            // Convert bitmap to bytearray
-            File file = createTempFile(getExternalFilesDir(null), "YotaImageWidget");
-            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-            imageBitmap.compress(CompressFormat.PNG, 0, bs);
-            byte[] bitmapData = bs.toByteArray();
+            if (extras != null) {
+                Bitmap imageBitmap = extras.getParcelable("data");
 
-            // Save file
-            FileOutputStream fs = new FileOutputStream(file);
-            fs.write(bitmapData);
-            fs.flush();
-            fs.close();
+                try {
 
-            // Display image
-            ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
+                    // Convert bitmap to bytearray
+                    File file = File.createTempFile("YotaImageWidget", null);
+                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                    imageBitmap.compress(CompressFormat.PNG, 0, bs);
+                    byte[] bitmapData = bs.toByteArray();
+
+                    // Save file
+                    FileOutputStream fs = new FileOutputStream(file);
+                    fs.write(bitmapData);
+                    fs.flush();
+                    fs.close();
+                } catch(Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                // Display image
+                ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
+            } else {
+                Log.e(TAG, "Cannot crop image");
+            }
+            */
+            // Show image
+            Bitmap imageBitmap = createBitmap(mPicturePath, mPictureW, mPictureH);
+            ImageView img = (ImageView) findViewById(R.id.config_image);
+            img.setImageBitmap(imageBitmap);
+            img.requestLayout();
         }
 
     }
