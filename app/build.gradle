@@ -17,9 +17,17 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://lorenzo.villani.me/android-cropimage/'
+    }
+}
+
 dependencies {
     // Local binary dependency (excludes file com.yotadevices.yotaphone2.sdk.v2.jar)
     compile fileTree(dir: 'libs', excludes: ['com.yotadevices.yotaphone2.sdk.v2.jar'], include: ['*.jar'])
     // YotaPhone2 SDK library
     provided files('libs/com.yotadevices.yotaphone2.sdk.v2.jar')
+    compile 'me.villani.lorenzo.android:android-cropimage:1.1.0'
 }

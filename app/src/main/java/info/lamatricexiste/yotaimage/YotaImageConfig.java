@@ -43,8 +43,7 @@ import java.net.URI;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 
-
-import android.net.Uri;
+import com.android.camera.CropImageIntentBuilder;
 
 public class YotaImageConfig extends Activity {
 
