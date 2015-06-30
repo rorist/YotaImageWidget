@@ -173,16 +173,10 @@ public class YotaImageConfig extends Activity {
                     Toast.makeText(YotaImageConfig.this, "Impossible to crop", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent cropIntent = new Intent("com.android.camera.action.CROP");
-                Uri selectedImage = Uri.fromFile(new File(mPicturePath));
-                cropIntent.setDataAndType(selectedImage, "image/*");
-                cropIntent.putExtra("crop", "true");
-                cropIntent.putExtra("aspectX", 1);
-                cropIntent.putExtra("aspectY", 1);
-                cropIntent.putExtra("outputX", mPictureW);
-                cropIntent.putExtra("outputY", mPictureH);
-                //cropIntent.putExtra("return-data", true);
-                startActivityForResult(cropIntent, RESULT_CROP_IMAGE);
+                Uri croppedImage = Uri.fromFile(new File(mPicturePath)); //FIXME: Must be different, create a new image
+                CropImageIntentBuilder cropImage = new CropImageIntentBuilder(mPictureW, mPictureH, croppedImage);
+                cropImage.setSourceImage(croppedImage);
+                startActivityForResult(cropImage.getIntent(YotaImageConfig.this), RESULT_CROP_IMAGE);
             }
         });
 
@@ -213,35 +207,6 @@ public class YotaImageConfig extends Activity {
             img.setImageBitmap(imageBitmap);
             img.requestLayout();
         } else if (requestCode == RESULT_CROP_IMAGE && resultCode == RESULT_OK) {
-            /*
-            Bundle extras = data.getExtras();
-
-            if (extras != null) {
-                Bitmap imageBitmap = extras.getParcelable("data");
-
-                try {
-
-                    // Convert bitmap to bytearray
-                    File file = File.createTempFile("YotaImageWidget", null);
-                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
-                    imageBitmap.compress(CompressFormat.PNG, 0, bs);
-                    byte[] bitmapData = bs.toByteArray();
-
-                    // Save file
-                    FileOutputStream fs = new FileOutputStream(file);
-                    fs.write(bitmapData);
-                    fs.flush();
-                    fs.close();
-                } catch(Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-                // Display image
-                ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
-            } else {
-                Log.e(TAG, "Cannot crop image");
-            }
-            */
             // Show image
             Bitmap imageBitmap = createBitmap(mPicturePath, mPictureW, mPictureH);
             ImageView img = (ImageView) findViewById(R.id.config_image);
