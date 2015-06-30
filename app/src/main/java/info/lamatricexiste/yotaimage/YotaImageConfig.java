@@ -209,12 +209,24 @@ public class YotaImageConfig extends Activity {
             ImageView img = (ImageView) findViewById(R.id.config_image);
             img.setImageBitmap(imageBitmap);
             img.requestLayout();
-        } else {
-            if (data != null) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = extras.getParcelable("data");
-                ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
-            }
+        } else if (requestCode == RESULT_CROP_IMAGE && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = extras.getParcelable("data");
+
+            // Convert bitmap to bytearray
+            File file = createTempFile(getExternalFilesDir(null), "YotaImageWidget");
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            imageBitmap.compress(CompressFormat.PNG, 0, bs);
+            byte[] bitmapData = bs.toByteArray();
+
+            // Save file
+            FileOutputStream fs = new FileOutputStream(file);
+            fs.write(bitmapData);
+            fs.flush();
+            fs.close();
+
+            // Display image
+            ((ImageView) findViewById(R.id.config_image)).setImageBitmap(imageBitmap);
         }
 
     }
