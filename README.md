@@ -27,9 +27,7 @@ Build with Android studio
 Screenshots
 ----------
 
-![](./screenshots/Screenshot_2015-07-01-12-25-25.png)
-![](./screenshots/Screenshot_2015-07-01-12-28-48.png)
-![](./screenshots/Screenshot_2015-07-01-12-33-44.png)
-![](./screenshots/Screenshot_2015-07-01-12-34-18.png)
-
-
+<img src="./screenshots/Screenshot_2015-07-01-12-25-25.png" width="300" />
+<img src="./screenshots/Screenshot_2015-07-01-12-28-48.png" width="300" />
+<img src="./screenshots/Screenshot_2015-07-01-12-33-44.png" width="300" />
+<img src="./screenshots/Screenshot_2015-07-01-12-34-18.png" width="300" />
