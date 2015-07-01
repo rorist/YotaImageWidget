@@ -107,8 +107,8 @@ public class YotaImageConfig extends Activity {
                 mPictureH = 476;
                 break;
             case BackscreenLauncherConstants.WIDGET_SIZE_EXTRA_LARGE:
-                mPictureW = 960;
-                mPictureH = 540;
+                mPictureW = 540;
+                mPictureH = 960;
                 break;
             default:
                 Log.e(TAG, "Unknown widget size");
