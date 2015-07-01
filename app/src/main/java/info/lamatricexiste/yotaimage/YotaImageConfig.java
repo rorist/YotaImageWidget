@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.lang.Math;
 
 import com.android.camera.CropImageIntentBuilder;
 
@@ -110,7 +111,8 @@ public class YotaImageConfig extends Activity {
                 mPictureH = 540;
                 break;
             default:
-                Log.e(TAG, "Unknown size");
+                Log.e(TAG, "Unknown widget size");
+                Toast.makeText(YotaImageConfig.this, "Unknown widget size", Toast.LENGTH_SHORT).show();
         }
 
         // Get default image
@@ -169,6 +171,8 @@ public class YotaImageConfig extends Activity {
         ((Button) findViewById(R.id.btn_crop)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "Cropto="+mPictureW+"x"+mPictureH);
+                Log.d(TAG, "Crop="+mPicturePath);
                 if(mPicturePath == null) {
                     Toast.makeText(YotaImageConfig.this, "Impossible to crop", Toast.LENGTH_SHORT).show();
                     return;
@@ -176,7 +180,10 @@ public class YotaImageConfig extends Activity {
                 try {
                     File croppedFile = File.createTempFile("YotaImageWidget", null);
                     Uri croppedImage = Uri.fromFile(croppedFile);
-                    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(mPictureW, mPictureH, croppedImage);
+                    final int ratiox = Math.round(mPictureW / mPictureH);
+                    final int ratioy = 1;
+                    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(ratiox, ratioy, mPictureW, mPictureH, croppedImage);
+                    cropImage.setDoFaceDetection(false);
                     cropImage.setSourceImage(Uri.fromFile(new File(mPicturePath)));
                     mPicturePath = croppedFile.getAbsolutePath();
                     startActivityForResult(cropImage.getIntent(YotaImageConfig.this), RESULT_CROP_IMAGE);
