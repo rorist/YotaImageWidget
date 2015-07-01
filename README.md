@@ -24,3 +24,12 @@ Build with Android studio
 * Download and install Android studio: https://developer.android.com/sdk/index.html
 * Import the project and enjoy!
 
+Screenshots
+----------
+
+![](./screenshots/Screenshot_2015-07-01-12-25-25.png)
+![](./screenshots/Screenshot_2015-07-01-12-28-48.png)
+![](./screenshots/Screenshot_2015-07-01-12-33-44.png)
+![](./screenshots/Screenshot_2015-07-01-12-34-18.png)
+
+
