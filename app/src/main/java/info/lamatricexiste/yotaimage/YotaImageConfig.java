@@ -173,10 +173,16 @@ public class YotaImageConfig extends Activity {
                     Toast.makeText(YotaImageConfig.this, "Impossible to crop", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Uri croppedImage = Uri.fromFile(new File(mPicturePath)); //FIXME: Must be different, create a new image
-                CropImageIntentBuilder cropImage = new CropImageIntentBuilder(mPictureW, mPictureH, croppedImage);
-                cropImage.setSourceImage(croppedImage);
-                startActivityForResult(cropImage.getIntent(YotaImageConfig.this), RESULT_CROP_IMAGE);
+                try {
+                    File croppedFile = File.createTempFile("YotaImageWidget", null);
+                    Uri croppedImage = Uri.fromFile(croppedFile);
+                    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(mPictureW, mPictureH, croppedImage);
+                    cropImage.setSourceImage(Uri.fromFile(new File(mPicturePath)));
+                    mPicturePath = croppedFile.getAbsolutePath();
+                    startActivityForResult(cropImage.getIntent(YotaImageConfig.this), RESULT_CROP_IMAGE);
+                } catch (Exception e) {
+                    Toast.makeText(YotaImageConfig.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -188,7 +194,7 @@ public class YotaImageConfig extends Activity {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-
+            // Load image
             // Get image path and data
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -207,6 +213,7 @@ public class YotaImageConfig extends Activity {
             img.setImageBitmap(imageBitmap);
             img.requestLayout();
         } else if (requestCode == RESULT_CROP_IMAGE && resultCode == RESULT_OK) {
+            // Crop image
             // Show image
             Bitmap imageBitmap = createBitmap(mPicturePath, mPictureW, mPictureH);
             ImageView img = (ImageView) findViewById(R.id.config_image);
