@@ -17,6 +17,12 @@ Build from the command line
   gradle installDebug #install debug apk to device/emulator
 ```
 * APK will be in ./app/build/outputs/apk/app-debug.apk
+* To build the release version
+```
+  export ANDROID_KEYSTORE="/home/$USER/.android/my-release-key.keystore"
+  export ANDROID_KEYALIAS="your_keystore_name"
+  gradle assembleRelease
+```
 
 Build with Android studio
 -------------------------
