@@ -111,8 +111,9 @@ public class YotaImageConfig extends Activity {
                 mPictureH = 960;
                 break;
             default:
-                Log.e(TAG, "Unknown widget size");
-                Toast.makeText(YotaImageConfig.this, "Unknown widget size", Toast.LENGTH_SHORT).show();
+                String errorStr = getString(R.string.error_widget_size);
+                Log.e(TAG, errorStr);
+                Toast.makeText(YotaImageConfig.this, errorStr, Toast.LENGTH_SHORT).show();
         }
 
         // Get default image
@@ -171,14 +172,12 @@ public class YotaImageConfig extends Activity {
         ((Button) findViewById(R.id.btn_crop)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Cropto="+mPictureW+"x"+mPictureH);
-                Log.d(TAG, "Crop="+mPicturePath);
                 if(mPicturePath == null) {
-                    Toast.makeText(YotaImageConfig.this, "Impossible to crop", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(YotaImageConfig.this, getString(R.string.error_image_crop), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
-                    File croppedFile = File.createTempFile("YotaImageWidget", null);
+                    File croppedFile = File.createTempFile(getString(R.string.config_temp_file), null);
                     Uri croppedImage = Uri.fromFile(croppedFile);
                     final int ratiox = Math.round(mPictureW / mPictureH);
                     final int ratioy = 1;

@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">Yotaphone Image Widget</string>
     <string name="error_image_load">Unable to load image!</string>
+    <string name="error_image_crop">Impossible to crop!</string>
+    <string name="error_widget_size">Unknown widget size!</string>
     <string name="config_select_image">Select image</string>
     <string name="config_save">Save</string>
     <string name="config_cancel">Cancel</string>
     <string name="config_crop_image">Crop</string>
-    <string name="radio_s">S</string>
-    <string name="radio_m">M</string>
-    <string name="radio_l">L</string>
-    <string name="radio_xl">XL</string>
+    <string name="config_temp_file">YotaImageWidget</string>
 </resources>
