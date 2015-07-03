@@ -172,7 +172,7 @@ public class YotaImageConfig extends Activity {
         ((Button) findViewById(R.id.btn_crop)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mPicturePath == null) {
+                if (mPicturePath == null) {
                     Toast.makeText(YotaImageConfig.this, getString(R.string.error_image_crop), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -234,8 +234,10 @@ public class YotaImageConfig extends Activity {
         //options.inSampleSize = 2;
         //Bitmap imageBitmap = BitmapFactory.decodeFile(path, options);
         Bitmap imageBitmap = BitmapFactory.decodeFile(path);
-        imageBitmap = Bitmap.createScaledBitmap(imageBitmap, w, h, false);
-        imageBitmap = createBitmap(imageBitmap);
+        if (imageBitmap != null) {
+            imageBitmap = Bitmap.createScaledBitmap(imageBitmap, w, h, false);
+            imageBitmap = createBitmap(imageBitmap);
+        }
         return imageBitmap;
     }
 
