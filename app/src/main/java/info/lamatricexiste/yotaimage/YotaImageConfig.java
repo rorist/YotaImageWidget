@@ -57,6 +57,7 @@ public class YotaImageConfig extends Activity {
     protected static String PREF_IMAGE_PATH = "image_path";
     protected static String PREF_IMAGE_SIZEW = "image_sizew";
     protected static String PREF_IMAGE_SIZEH = "image_sizeh";
+    protected static String PREF_IMAGE_UPDATE = "image_update";
 
     private SharedPreferences mPrefs;
     private String mPicturePath;
@@ -136,6 +137,7 @@ public class YotaImageConfig extends Activity {
                 edit.putString(PREF_IMAGE_PATH + bsWidgetId, mPicturePath);
                 edit.putInt(PREF_IMAGE_SIZEW + bsWidgetId, mPictureW);
                 edit.putInt(PREF_IMAGE_SIZEH + bsWidgetId, mPictureH);
+                edit.putBoolean(PREF_IMAGE_UPDATE + bsWidgetId, true);
                 edit.commit();
 
                 // Leave

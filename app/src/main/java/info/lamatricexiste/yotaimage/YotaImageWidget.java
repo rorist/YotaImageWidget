@@ -84,18 +84,32 @@ public class YotaImageWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         Log.d(TAG, "onUpdateAppWidget=" + appWidgetId);
-        // Get image and displays it
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
+
+        // Get prefs and check for update
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean needsUpdate = prefs.getBoolean(YotaImageConfig.PREF_IMAGE_UPDATE + appWidgetId, true);
+        if (!needsUpdate) {
+            return;
+        }
+
+        // Get image
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);
         String imagePath = prefs.getString(YotaImageConfig.PREF_IMAGE_PATH + appWidgetId, null);
         int imageW = prefs.getInt(YotaImageConfig.PREF_IMAGE_SIZEW + appWidgetId, 476);
         int imageH = prefs.getInt(YotaImageConfig.PREF_IMAGE_SIZEH + appWidgetId, 112);
+
+        // Create image and display it
         if (imagePath != null) {
             Bitmap imageBitmap = YotaImageConfig.createBitmap(imagePath, imageW, imageH);
             views.setImageViewBitmap(R.id.widget_image, imageBitmap);
         } else {
             views.setImageViewResource(R.id.widget_image, R.drawable.placeholder);
         }
+        // Save state
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean(YotaImageConfig.PREF_IMAGE_UPDATE + appWidgetId, false);
+        edit.commit();
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
