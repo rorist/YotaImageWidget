@@ -7,5 +7,6 @@
     <string name="config_save">Save</string>
     <string name="config_cancel">Cancel</string>
     <string name="config_crop_image">Crop</string>
+    <string name="config_crop_help">Hold the square to resize</string>
     <string name="config_temp_file">YotaImageWidget</string>
 </resources>

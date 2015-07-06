@@ -26,12 +26,11 @@ public class YotaImageWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        Log.d(TAG, "onUpdate");
-
         // Update all widgets
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
-            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
+            Log.d(TAG, "onUpdate="+appWidgetIds[i]);
+            updateAppWidget(context, appWidgetManager, appWidgetIds[i], true);
         }
 
     }
@@ -58,11 +57,12 @@ public class YotaImageWidget extends AppWidgetProvider {
                 for (int i = 0; i < thisWidgetsIds.length; i++)
                     for (int j = 0; j < visibleWidgetIds.length; j++)
                         if (thisWidgetsIds[i] == visibleWidgetIds[j]) {
-                            updateAppWidget(context, AppWidgetManager.getInstance(context), thisWidgetsIds[i]);
+                            updateAppWidget(context, AppWidgetManager.getInstance(context), thisWidgetsIds[i], false);
                             break;
                         }
             }
         }
+
     }
 
     @Override
@@ -75,22 +75,23 @@ public class YotaImageWidget extends AppWidgetProvider {
             edit.remove(YotaImageConfig.PREF_IMAGE_PATH + appWidgetIds[i]);
             edit.remove(YotaImageConfig.PREF_IMAGE_SIZEW + appWidgetIds[i]);
             edit.remove(YotaImageConfig.PREF_IMAGE_SIZEH + appWidgetIds[i]);
+            Log.d(TAG, "onDeleted="+appWidgetIds[i]);
         }
         edit.commit();
         super.onDeleted(context, appWidgetIds);
-        Log.d(TAG, "onDeleted");
     }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-        Log.d(TAG, "onUpdateAppWidget=" + appWidgetId);
+                                int appWidgetId, boolean forceUpdate) {
 
         // Get prefs and check for update
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean needsUpdate = prefs.getBoolean(YotaImageConfig.PREF_IMAGE_UPDATE + appWidgetId, true);
-        if (!needsUpdate) {
+        if (!needsUpdate && !forceUpdate) {
+            Log.d(TAG, "Doesnt need update("+needsUpdate+","+forceUpdate+")="+appWidgetId);
             return;
         }
+        Log.d(TAG, "onUpdateAppWidget("+needsUpdate+","+forceUpdate+")=" + appWidgetId);
 
         // Get image
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yota_image);

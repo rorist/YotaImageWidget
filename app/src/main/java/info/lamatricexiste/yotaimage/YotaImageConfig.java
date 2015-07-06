@@ -193,6 +193,7 @@ public class YotaImageConfig extends Activity {
                     cropImage.setDoFaceDetection(false);
                     cropImage.setSourceImage(Uri.fromFile(new File(mPicturePath)));
                     mPicturePath = croppedFile.getAbsolutePath();
+                    Toast.makeText(YotaImageConfig.this, getString(R.string.config_crop_help), Toast.LENGTH_SHORT).show();
                     startActivityForResult(cropImage.getIntent(YotaImageConfig.this), RESULT_CROP_IMAGE);
                 } catch (Exception e) {
                     Toast.makeText(YotaImageConfig.this, e.getMessage(), Toast.LENGTH_SHORT).show();
