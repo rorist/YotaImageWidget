@@ -133,11 +133,17 @@ public class YotaImageConfig extends Activity {
             public void onClick(View view) {
                 // Save image path in preferences
                 SharedPreferences.Editor edit = mPrefs.edit();
+
                 edit.putString(PREF_IMAGE_PATH + frWidgetId, mPicturePath);
+                edit.putInt(PREF_IMAGE_SIZEW + frWidgetId, mPictureW);
+                edit.putInt(PREF_IMAGE_SIZEH + frWidgetId, mPictureH);
+                edit.putBoolean(PREF_IMAGE_UPDATE + frWidgetId, true);
+
                 edit.putString(PREF_IMAGE_PATH + bsWidgetId, mPicturePath);
                 edit.putInt(PREF_IMAGE_SIZEW + bsWidgetId, mPictureW);
                 edit.putInt(PREF_IMAGE_SIZEH + bsWidgetId, mPictureH);
                 edit.putBoolean(PREF_IMAGE_UPDATE + bsWidgetId, true);
+
                 edit.commit();
 
                 // Leave
