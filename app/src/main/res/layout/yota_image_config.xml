@@ -1,98 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dip">
+    android:padding="30dip">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:id="@+id/button_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="20dip">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="20dip">
-
-            <Button
-                android:id="@+id/btn_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/config_select_image" />
-
-            <Button
-                android:id="@+id/btn_crop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/config_crop_image" />
-
-        </LinearLayout>
-
-        <!--
-        <RadioGroup
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radio_small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
-                android:text="@string/radio_s" />
-
-            <RadioButton
-                android:id="@+id/radio_medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
-                android:text="@string/radio_m" />
-
-            <RadioButton
-                android:id="@+id/radio_large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
-                android:text="@string/radio_l" />
-
-            <RadioButton
-                android:id="@+id/radio_extra_large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
-                android:text="@string/radio_xl" />
-
-        </RadioGroup>
-        -->
-
-        <ImageView
-            android:id="@+id/config_image"
+        <Button
+            android:id="@+id/btn_image"
+            style="?android:attr/buttonBarNeutralButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true" />
+            android:text="@string/config_select_image"
+            android:drawableStart="@android:drawable/ic_menu_gallery" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_crop"
+            style="?android:attr/buttonBarNeutralButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dip">
-
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/config_cancel" />
-
-
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/config_save" />
-
-        </LinearLayout>
+            android:text="@string/config_crop_image"
+            android:drawableStart="@android:drawable/ic_menu_crop" />
 
     </LinearLayout>
 
-</ScrollView>
+    <ScrollView
+        android:id="@+id/image_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_top">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip">
+
+            <ImageView
+                android:id="@+id/config_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/placeholder" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/button_bottom"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@id/image_scroll"
+        android:layout_gravity="bottom"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingTop="20dip">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="?android:attr/buttonBarNegativeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/config_cancel"
+            android:textColor="#000000"
+            android:drawableStart="@android:drawable/ic_menu_close_clear_cancel" />
+
+
+        <Button
+            android:id="@+id/btn_save"
+            style="?android:attr/buttonBarPositiveButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/config_save"
+            android:drawableStart="@android:drawable/ic_menu_save" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
