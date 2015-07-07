@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import java.util.Arrays;
+
 import com.yotadevices.sdk.BackscreenLauncherConstants;
 import com.yotadevices.sdk.Drawer;
 import com.yotadevices.sdk.utils.BitmapUtils;
@@ -43,23 +45,20 @@ public class YotaImageWidget extends AppWidgetProvider {
             Bundle extras = intent.getExtras();
             if (extras != null && extras.containsKey(BackscreenLauncherConstants.ACTION_APPWIDGET_EXTRA_VISIBLE)) {
 
-                final int[] visibleWidgetIds = extras.getIntArray(BackscreenLauncherConstants.ACTION_APPWIDGET_EXTRA_VISIBLE);
-                if (visibleWidgetIds == null || visibleWidgetIds.length <= 0) return;
+                // Get all widgets
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                ComponentName thisWidget = new ComponentName(context, YotaImageWidget.class);
+                int[] thisClassWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+                boolean isWidgetVisible = false;
 
-                // Array of all BSTimeWidget widget IDs
-                int[] thisWidgetsIds = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, YotaImageWidget.class));
-                if (thisWidgetsIds == null) {
-                    return;
+                // Find all visible widgets
+                final int[] visibleAppWidgetIds = extras.getIntArray(BackscreenLauncherConstants.ACTION_APPWIDGET_EXTRA_VISIBLE);
+                for (int i = 0; i < visibleAppWidgetIds.length; i++) {
+                    isWidgetVisible = Arrays.binarySearch(thisClassWidgetIds, visibleAppWidgetIds[i]) >= 0;
+                    if (isWidgetVisible) {
+                        updateAppWidget(context, appWidgetManager, visibleAppWidgetIds[i], false);
+                    }
                 }
-
-                // Find all visible BSTimeWidget widgets
-                int visibleCount = 0;
-                for (int i = 0; i < thisWidgetsIds.length; i++)
-                    for (int j = 0; j < visibleWidgetIds.length; j++)
-                        if (thisWidgetsIds[i] == visibleWidgetIds[j]) {
-                            updateAppWidget(context, AppWidgetManager.getInstance(context), thisWidgetsIds[i], false);
-                            break;
-                        }
             }
         }
 
@@ -67,6 +66,7 @@ public class YotaImageWidget extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
         // Remove preferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = prefs.edit();
@@ -78,7 +78,6 @@ public class YotaImageWidget extends AppWidgetProvider {
             Log.d(TAG, "onDeleted="+appWidgetIds[i]);
         }
         edit.commit();
-        super.onDeleted(context, appWidgetIds);
     }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
