@@ -71,9 +71,6 @@ public class YotaImageConfig extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yota_image_config);
 
-        // TODO: select button from prefs
-        //((RadioButton) findViewById(R.id.radio_small)).setChecked(true);
-
         Context context = getApplicationContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(YotaImageConfig.this);
 
@@ -247,9 +244,6 @@ public class YotaImageConfig extends Activity {
     }
 
     protected static Bitmap createBitmap(String path, int w, int h) {
-        //BitmapFactory.Options options = new BitmapFactory.Options();
-        //options.inSampleSize = 2;
-        //Bitmap imageBitmap = BitmapFactory.decodeFile(path, options);
         Bitmap imageBitmap = BitmapFactory.decodeFile(path);
         if (imageBitmap != null) {
             imageBitmap = Bitmap.createScaledBitmap(imageBitmap, w, h, false);
@@ -263,47 +257,5 @@ public class YotaImageConfig extends Activity {
         imageBitmap = BitmapUtils.ditherBitmap(imageBitmap, Drawer.Dithering.DITHER_ATKINSON);
         return imageBitmap;
     }
-
-    /*
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        switch (view.getId()) {
-            case R.id.radio_small:
-                if (checked) {
-                    mPictureW = 476;
-                    mPictureH = 112;
-                }
-                break;
-            case R.id.radio_medium:
-                if (checked) {
-                    mPictureW = 476;
-                    mPictureH = 168;
-                }
-                break;
-            case R.id.radio_large:
-                if (checked) {
-                    mPictureW = 448;
-                    mPictureH = 476;
-                }
-                break;
-            case R.id.radio_extra_large:
-                if (checked) {
-                    mPictureW = 960;
-                    mPictureH = 540;
-                }
-                break;
-        }
-        setImageSize(mPictureW, mPictureH);
-    }
-
-    private void setImageSize(int w, int h) {
-        ImageView img = (ImageView) findViewById(R.id.config_image);
-        img.setAdjustViewBounds(true);
-        img.setMaxWidth(w);
-        img.setMaxHeight(h);
-        img.requestLayout();
-        createBitmap(mPicturePath, w, h);
-    }
-    */
 
 }
