@@ -62,6 +62,8 @@ public class YotaImageConfig extends Activity {
     private String mPicturePath;
     private int mPictureW;
     private int mPictureH;
+    private int mRatioX = 0;
+    private int mRatioY = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,18 +99,26 @@ public class YotaImageConfig extends Activity {
             case BackscreenLauncherConstants.WIDGET_SIZE_SMALL:
                 mPictureW = 476;
                 mPictureH = 112;
+                mRatioX = 17;
+                mRatioY = 4;
                 break;
             case BackscreenLauncherConstants.WIDGET_SIZE_MEDIUM:
                 mPictureW = 476;
                 mPictureH = 168;
+                mRatioX = 17;
+                mRatioY = 6;
                 break;
             case BackscreenLauncherConstants.WIDGET_SIZE_LARGE:
                 mPictureW = 448;
                 mPictureH = 476;
+                mRatioX = 16;
+                mRatioY = 17;
                 break;
             case BackscreenLauncherConstants.WIDGET_SIZE_EXTRA_LARGE:
                 mPictureW = 540;
                 mPictureH = 960;
+                mRatioX = 9;
+                mRatioY = 16;
                 break;
             default:
                 String errorStr = getString(R.string.error_widget_size);
@@ -186,9 +196,7 @@ public class YotaImageConfig extends Activity {
                 try {
                     File croppedFile = File.createTempFile(getString(R.string.config_temp_file), null);
                     Uri croppedImage = Uri.fromFile(croppedFile);
-                    final int ratiox = Math.round(mPictureW / mPictureH);
-                    final int ratioy = 1;
-                    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(ratiox, ratioy, mPictureW, mPictureH, croppedImage);
+                    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(mRatioX, mRatioY, mPictureW, mPictureH, croppedImage);
                     cropImage.setDoFaceDetection(false);
                     cropImage.setSourceImage(Uri.fromFile(new File(mPicturePath)));
                     mPicturePath = croppedFile.getAbsolutePath();
@@ -226,6 +234,7 @@ public class YotaImageConfig extends Activity {
             ImageView img = (ImageView) findViewById(R.id.config_image);
             img.setImageBitmap(imageBitmap);
             img.requestLayout();
+
         } else if (requestCode == RESULT_CROP_IMAGE && resultCode == RESULT_OK) {
             // Crop image
             // Show image
