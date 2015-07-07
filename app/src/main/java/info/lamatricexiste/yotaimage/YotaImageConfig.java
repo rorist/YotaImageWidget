@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -124,7 +123,7 @@ public class YotaImageConfig extends Activity {
             Bitmap image = createBitmap(mPicturePath, mPictureW, mPictureH);
             imageView.setImageBitmap(image);
         } else {
-            imageView.setImageDrawable(getDrawable(R.drawable.placeholder));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.placeholder));
         }
 
         // Save button

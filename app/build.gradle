@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 22
+    compileSdkVersion 17
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId "info.lamatricexiste.yotaimage"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 22
     }
     signingConfigs {
