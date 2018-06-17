@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "info.lamatricexiste.yotaimage"
         minSdkVersion 17
         targetSdkVersion 22
     }
+    /*
     signingConfigs {
         releaseSigning {
             storeFile file(System.getenv("ANDROID_KEYSTORE"))
@@ -14,12 +15,12 @@ android {
             keyAlias System.getenv("ANDROID_KEYALIAS")
             keyPassword System.console().readLine("Key password: ")
         }
-    }
+    }*/
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.releaseSigning
+            //signingConfig signingConfigs.releaseSigning
         }
     }
     productFlavors {
@@ -38,5 +39,5 @@ dependencies {
     compile fileTree(dir: 'libs', excludes: ['com.yotadevices.yotaphone2.sdk.v2.jar'], include: ['*.jar'])
     // YotaPhone2 SDK library
     provided files('libs/com.yotadevices.yotaphone2.sdk.v2.jar')
-    compile 'me.villani.lorenzo.android:android-cropimage:1.1.0'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
 }
